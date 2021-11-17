@@ -1,6 +1,8 @@
 # Checkout or python install don't carry between jobs. In fresh job, will default to empty directory and python 3.8
 # Env variables are all strings
 
+{% raw -%}
+
 name: CI
 
 on: [push, pull_request]
@@ -53,3 +55,5 @@ jobs:
       - name: Upload coverage on success
         uses: codecov/codecov-action@v1
         if: ${{ success() }}
+
+{%- endraw %}

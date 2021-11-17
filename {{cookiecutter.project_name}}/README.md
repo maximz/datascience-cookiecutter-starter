@@ -6,6 +6,7 @@
 
 ```bash
 # Install requirements
+pip install --upgrade pip wheel
 pip install -r requirements.txt --src ../
 
 # Install local package
@@ -16,10 +17,12 @@ pre-commit install
 
 # Run tests
 make test
+
+# Run lint
+make lint
 ```
 
-Review `config.py` configuration.
-
+Review `config.py` configuration. Create directories with: `python -c "from {{ cookiecutter.package_name }} import config; config.make_dirs();"`
 ## Runbook
 
 ```bash
@@ -28,7 +31,9 @@ rm -r out
 mkdir out
 
 # run notebooks
-./run_notebooks.sh notebooks/analysis.ipynb notebooks/summary.ipynb;
+./run_notebooks.sh \
+    notebooks/analysis.ipynb \
+    notebooks/summary.ipynb;
 ```
 
 ## Development
@@ -46,7 +51,7 @@ Sometimes we fall back to the command line to sync these notebook/script pairs: 
 ```bash
 # lint all files
 make lint
-# or lint staged files only
+# or lint staged files only - most frequently used
 make lint-staged
 # or lint files that have changed since upstream only
 make lint-diff

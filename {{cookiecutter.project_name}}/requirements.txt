@@ -1,13 +1,15 @@
 coverage
-pytest-cov
-scipy
+genetools
+joblib
 jupytext==1.11.5
-numpy
 matplotlib
+numpy
 pandas
 pre-commit
 pytest
+pytest-cov
 scikit-learn
+scipy
 seaborn
 # summarynb
 -e git+https://github.com/maximz/summarynb.git@develop#egg=summarynb

@@ -15,6 +15,7 @@ jobs:
         python-version: [3.7, 3.8, 3.9]
     steps:
       - name: Checkout
+        # Outer repo will now live in datascience-cookiecutter-starter directory
         uses: actions/checkout@v2
         with:
           path: datascience-cookiecutter-starter
@@ -31,26 +32,17 @@ jobs:
           # This path is specific to Ubuntu
           path: ~/.cache/pip
           # Look to see if there is a cache hit for the corresponding requirements file
-          key: ${{ runner.os }}-pip-${{ hashFiles('.github/workflows/requirements.txt')-${{ hashFiles('datascience-starter/requirements.txt') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('.github/workflows/requirements.txt') }}-${{ hashFiles('{{cookiecutter.project_name}}/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
             ${{ runner.os }}-
 
-      - name: Install dependencies
+      - name: Install dependencies for outer repo
         working-directory: datascience-cookiecutter-starter
         run: |
           python -m pip install --upgrade pip wheel
-          pip install -r requirements.txt
-      - name: Generate project using Cookiecutter
-        run: cookiecutter --no-input datascience-cookiecutter-starter
-      - name: Create git repository
-        run: |
-          git init
-          git config --local user.name "GitHub Action"
-          git config --local user.email "action@github.com"
-          git add .
-          git commit --message="Initial import"
-        working-directory: datascience-starter
+          pip install -r .github/workflows/requirements.txt
+
       - name: Compute cache key for pre-commit
         id: cache_key
         shell: python
@@ -69,20 +61,33 @@ jobs:
         with:
           path: ~/.cache/pre-commit
           # Look to see if there is a cache hit for the corresponding file
-          key: ${{ steps.cache_key.outputs.result }}-${{ hashFiles('datascience-starter/.pre-commit-config.yaml') }}
+          key: ${{ steps.cache_key.outputs.result }}-${{ hashFiles('{{cookiecutter.project_name}}/.pre-commit-config.yaml') }}
           restore-keys: |
             ${{ steps.cache_key.outputs.result }}-
 
-      - name: Lint outer
+      - name: Lint outer repo
+        working-directory: datascience-cookiecutter-starter
         run: |
             pre-commit install
             pre-commit run --all-files --show-diff-on-failure
+
+      - name: Generate inner project using Cookiecutter
+        # Inner repo will now live in datascience-starter directory
+        run: cookiecutter --no-input datascience-cookiecutter-starter
+      - name: Create git repository
+        run: |
+          git init
+          git config --local user.name "GitHub Action"
+          git config --local user.email "action@github.com"
+          git add .
+          git commit --message="Initial import"
+        working-directory: datascience-starter
 
       - name: Install inner dependencies
         working-directory: datascience-starter
         run: |
           pip install -r requirements.txt
-      - name: Lint inner
+      - name: Lint inner repo
         working-directory: datascience-starter
         run: |
             pre-commit install
