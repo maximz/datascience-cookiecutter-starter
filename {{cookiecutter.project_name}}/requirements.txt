@@ -1,0 +1,13 @@
+coverage
+pytest-cov
+scipy
+jupytext==1.11.5
+numpy
+matplotlib
+pandas
+pre-commit
+pytest
+scikit-learn
+seaborn
+# summarynb
+-e git+https://github.com/maximz/summarynb.git@develop#egg=summarynb
