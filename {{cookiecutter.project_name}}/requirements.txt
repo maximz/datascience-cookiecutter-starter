@@ -11,5 +11,4 @@ pytest-cov
 scikit-learn
 scipy
 seaborn
-# summarynb
--e git+https://github.com/maximz/summarynb.git@develop#egg=summarynb
+summarynb

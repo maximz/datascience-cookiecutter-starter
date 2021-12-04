@@ -10,6 +10,6 @@ setup(
     name="{{ cookiecutter.package_name }}",
     description="{{ cookiecutter.friendly_name }}",
     packages=find_packages(include=["{{ cookiecutter.package_name }}", "{{ cookiecutter.package_name }}.*"]),
-    python_requires=">=3.6",
+    python_requires=">=3.7",
     version="{{ cookiecutter.version }}",
 )
