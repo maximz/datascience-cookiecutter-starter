@@ -17,6 +17,8 @@ pip install cookiecutter
 cookiecutter gh:maximz/datascience-cookiecutter-starter
 ```
 
+Cookiecutter creates a project directory for you. Open that directory and follow the final installation steps in the readme there.
+
 ## Development of the cookiecutter project
 
 ```bash
